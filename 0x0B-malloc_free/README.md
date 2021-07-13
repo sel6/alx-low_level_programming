@@ -1,2 +1,1 @@
-# the purpose of Malloc
-<h4>Allocate memory using malloc at run time</h4>
+# 0x0B. C - malloc, free

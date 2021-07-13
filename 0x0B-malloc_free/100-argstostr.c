@@ -1,75 +1,40 @@
-#include "dhk.h"
-#include <stdio.h>
+#include "holberton.h"
 #include <stdlib.h>
+
 /**
- *argstostr - concatenates arguments of the program
- *@ac: number of command line arguments
- *@av: array of pointers to command argument strings
+ * argstostr - concatenates all the arguments of your program.
+ * @ac: number of arguments
+ * @av: double pointer to arguments
  *
- *Return: pointer to concatenated
+ * Return:pointer to new string, or NULL if error
  */
 char *argstostr(int ac, char **av)
 {
-	int length = findlength(ac, av);
-	char *concatstr;
+	int i, j, k = 0, n = 0;
+	char *s;
 
-	if (ac == 0 || av == NULL)
+	if (ac <= 0 || av == NULL)
 		return (NULL);
-
-	concatstr = malloc(sizeof(char) * length);
-	if (concatstr == NULL)
-		return (NULL);
-	return (writeconcat(concatstr, ac, av));
-
-}
-
-/**
- *findlength - finds the total length of the concatenated string
- *@ac: number of command line arguments
- *@av: array of "strings"
- *
- *Return: the total length the concat needs to be including \n and \0
- */
-int findlength(int ac, char **av)
-{
-	int i, j;
-	int length = 0;
-
 	for (i = 0; i < ac; i++)
 	{
-		for (j = 0; *(av[i] + j) != '\0'; j++)
-		{
-			length++;
-		}
+		for (j = 0; av[i][j]; j++)
+			n++;
+		n++;
 	}
-	length += (ac + 1);
-	return (length);
-}
-
-/**
- *writeconcat - writes the contents of the arguments to concat string
- *@concatstr: concatenated string pointer
- *@ac: number of command line arguments
- *@av: array of pointers to argument strings
- *
- *Return: pointer to concatenated array
- */
-char *writeconcat(char *concatstr, int ac, char **av)
-{
-	int i;
-	int j;
-	int concatcount = 0;
-
+	n++;
+	s = malloc(n * sizeof(char));
+	if (s == NULL)
+		return (NULL);
 	for (i = 0; i < ac; i++)
 	{
-		for (j = 0; *(av[i] + j) != '\0'; j++)
+		for (j = 0; av[i][j]; j++)
 		{
-			*(concatstr + concatcount) = *(av[i] + j);
-			concatcount++;
+			s[k] = av[i][j];
+			k++;
 		}
-		*(concatstr + concatcount) = '\n';
-		concatcount++;
+		s[k] = '\n';
+		k++;
 	}
-	*(concatstr + concatcount) = '\0';
-	return (concatstr);
+	s[k] = '\0';
+	return (s);
 }
