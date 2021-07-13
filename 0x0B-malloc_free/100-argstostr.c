@@ -1,52 +1,75 @@
-#include <stdlib.h>
+#include "dhk.h"
 #include <stdio.h>
-
+#include <stdlib.h>
 /**
- * _strlen - find length of a string
- * @s: string
- * Return: int
+ *argstostr - concatenates arguments of the program
+ *@ac: number of command line arguments
+ *@av: array of pointers to command argument strings
+ *
+ *Return: pointer to concatenated
  */
-
-
-int _strlen(char *s)
-{
-int size = 0;
-for (; s[size] != '\0'; size++)
-;
-return (size);
-}
-
-/**
- * *argstostr - description
- * @ac: int
- * @av: arguments
- * Return: string
- */
-
 char *argstostr(int ac, char **av)
 {
-int i = 0, nc = 0, j = 0, cmpt = 0;
-char *s;
+	int length = findlength(ac, av);
+	char *concatstr;
 
-if (ac == 0 || av == NULL)
-	return (NULL);
+	if (ac == 0 || av == NULL)
+		return (NULL);
 
-for (; i < ac; i++, nc++)
-	nc += _strlen(av[i]);
+	concatstr = malloc(sizeof(char) * length);
+	if (concatstr == NULL)
+		return (NULL);
+	return (writeconcat(concatstr, ac, av));
 
-s = malloc(sizeof(char) * nc + 1);
-if (s == 0)
-	return (NULL);
-
-for (i = 0; i < ac; i++)
-{
-	for (j = 0; av[i][j] != '\0'; j++, cmpt++)
-		s[cmpt] = av[i][j];
-
-	s[cmpt] = '\n';
-	cmpt++;
 }
-s[cmpt] = '\0';
 
-return (s);
+/**
+ *findlength - finds the total length of the concatenated string
+ *@ac: number of command line arguments
+ *@av: array of "strings"
+ *
+ *Return: the total length the concat needs to be including \n and \0
+ */
+int findlength(int ac, char **av)
+{
+	int i, j;
+	int length = 0;
+
+	for (i = 0; i < ac; i++)
+	{
+		for (j = 0; *(av[i] + j) != '\0'; j++)
+		{
+			length++;
+		}
+	}
+	length += (ac + 1);
+	return (length);
+}
+
+/**
+ *writeconcat - writes the contents of the arguments to concat string
+ *@concatstr: concatenated string pointer
+ *@ac: number of command line arguments
+ *@av: array of pointers to argument strings
+ *
+ *Return: pointer to concatenated array
+ */
+char *writeconcat(char *concatstr, int ac, char **av)
+{
+	int i;
+	int j;
+	int concatcount = 0;
+
+	for (i = 0; i < ac; i++)
+	{
+		for (j = 0; *(av[i] + j) != '\0'; j++)
+		{
+			*(concatstr + concatcount) = *(av[i] + j);
+			concatcount++;
+		}
+		*(concatstr + concatcount) = '\n';
+		concatcount++;
+	}
+	*(concatstr + concatcount) = '\0';
+	return (concatstr);
 }
