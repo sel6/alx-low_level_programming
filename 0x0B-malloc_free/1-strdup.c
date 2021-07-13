@@ -1,48 +1,32 @@
-#include <stdio.h>
-#include "holberton.h"
+#include <stdlib.h>
 
 /**
- * _strlen - returns the length of a string
- * @s: string s
- * Return: length of string
- */
-int _strlen(char *s)
-{
-	int length = 0;
-
-	while (*s)
-	{
-		s++;
-		length++;
-	}
-	return (length);
-}
-
-/**
- * _strdup - returns a pointer to a newly allocated space in memory,
- * which contains a copy of the string given as a parameter.
- * @str: string to be copied
- * Return: copied string
+ * _strdup - Return pointer to a new string that duplicates given string,
+ * allocate mem w/ malloc
+ * @str: String to duplicate
+ *
+ * Return: Pointer to new string, NULL if failed to make memory
  */
 char *_strdup(char *str)
 {
+	char *nstr;
+	unsigned int i, len;
 
-	char *copy, *_copy;
-
-	if (!str)
+	if (str == NULL)
 		return (NULL);
-	copy = malloc((_strlen(str) + 1) * sizeof(char));
-	/*incase there is insufficent memory*/
-	if (!copy)
-		return (NULL);
-	_copy = copy;
-
-	while (*str)
+	i = len = 0;
+	while (str[len] != '\0')
 	{
-		*_copy = *str;
-		str++;
-		_copy++;
+		len++;
 	}
-	*_copy = '\0';
-	return (copy);
+	len++;
+	nstr = malloc(len * sizeof(*str));
+	if (nstr == NULL)
+		return (NULL);
+	while (i <= len)
+	{
+		nstr[i] = str[i];
+		i++;
+	}
+	return (nstr);
 }

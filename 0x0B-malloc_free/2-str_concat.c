@@ -1,55 +1,48 @@
 #include <stdlib.h>
-#include "holberton.h"
+#include <stdio.h>
 
 /**
- * _strlen - returns the length of a string
- * @s: string s
- * Return: length of string
- */
-int _strlen(char *s)
-{
-	int length = 0;
-
-	while (*s)
-	{
-		s++;
-		length++;
-	}
-	return (length);
-}
-
-/**
- * str_concat - concatenates two strings
- * @s1: first string
- * @s2: second string
- * Return: concatenated strings
+ * str_concat - Concatenate (combine) two strings
+ * @s1: First string
+ * @s2: Second string
+ *
+ * Return: Pointer to new space in memory, NULL if it fails
  */
 char *str_concat(char *s1, char *s2)
 {
-	char *cat, *_cat;
+	char *s3, *empt;
+	int i, len1, len2, j;
 
+	empt = "";
 	if (s1 == NULL)
-		s1 = "";
+		s1 = empt;
 	if (s2 == NULL)
-		s2 = "";
-
-	cat = malloc(sizeof(char) * (_strlen(s1) + _strlen(s2)) + 1);
-	if (!cat)
+		s2 = empt;
+	i = len1 = len2 = 0;
+	while (s1[len1] != '\0')
+	{
+		len1++;
+	}
+	while (s2[len2] != '\0')
+	{
+		len2++;
+	}
+	len2++;
+	s3 = malloc((len1 + len2) * sizeof(*s1));
+	if (s3 == NULL)
 		return (NULL);
-	_cat = cat;
-	while (*s1)
+	i = 0;
+	while (i < len1)
 	{
-		*_cat = *s1;
-		_cat++;
-		s1++;
+		s3[i] = s1[i];
+		i++;
 	}
-	while (*s2)
+	j = 0;
+	while (j <= len2)
 	{
-		*_cat = *s2;
-		_cat++;
-		s2++;
+		s3[i] = s2[j];
+		i++;
+		j++;
 	}
-	*_cat = '\0';
-	return (cat);
+	return (s3);
 }
-
