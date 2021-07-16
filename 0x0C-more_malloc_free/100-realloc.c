@@ -1,55 +1,47 @@
 #include "holberton.h"
-#include <stdlib.h>
 
 /**
- * _realloc - Reallocates a memory block using malloc and free.
- * @ptr: A pointer to the memory previously allocated.
- * @old_size: The size in bytes of the allocated space for ptr.
- * @new_size: The size in bytes for the new memory block.
- *
- * Return: If new_size == old_size - ptr.
- *         If new_size == 0 and ptr is not NULL - NULL.
- *         Otherwise - a pointer to the reallocated memory block.
+ * _realloc - reallocates a memory block using malloc and free
+ * @ptr: input pointer
+ * @old_size: size of old ptr
+ * @new_size: size of new ptr
+ * Return: reallocated ptr
  */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	void *mem;
-	char *ptr_copy, *filler;
-	unsigned int index;
+	void *res = NULL;
 
 	if (new_size == old_size)
 		return (ptr);
-
-	if (ptr == NULL)
+	if (!ptr)
 	{
-		mem = malloc(new_size);
-
-		if (mem == NULL)
-			return (NULL);
-
-		return (mem);
+		free(ptr);
+		res = malloc(new_size);
+		return (res);
 	}
-
-	if (new_size == 0 && ptr != NULL)
+	if (!new_size && ptr)
 	{
 		free(ptr);
 		return (NULL);
 	}
-
-	ptr_copy = ptr;
-	mem = malloc(sizeof(*ptr_copy) * new_size);
-
-	if (mem == NULL)
-	{
-		free(ptr);
-		return (NULL);
-	}
-
-	filler = mem;
-
-	for (index = 0; index < old_size && index < new_size; index++)
-		filler[index] = *ptr_copy++;
-
+	res = malloc(new_size);
+	_memcpy(res, ptr, old_size);
 	free(ptr);
-	return (mem);
+	return (res);
+}
+
+/**
+ * _memcpy - copies memory area
+ * @dest: destination string
+ * @src: source string
+ * @n: number of bytes to be copied
+ * Return: pointer to dest
+ */
+char *_memcpy(char *dest, char *src, unsigned int n)
+{
+	char *ptr = dest;
+
+	while (n--)
+		*dest++ = *src++;
+	return (ptr);
 }
