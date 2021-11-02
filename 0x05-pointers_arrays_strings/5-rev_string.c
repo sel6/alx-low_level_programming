@@ -6,34 +6,22 @@
  */
 int _strlen(char *s)
 {
-
-	int length = 0;
-
-	while (*s)
-{
-		s++;
-		length++;
+    int i = 0;
+    while(s[i])
+    i++;
+    return (i);
 }
-	return (length);
-}
-
-/**
- * rev_string - reverses a string
- * @s: string s
- */
 void rev_string(char *s)
 {
-	int length = _strlen(s);
-	int counter = 0;
-	char tmp;
-
-	while (counter < length / 2)
-	{
-		tmp = *(s + counter);
-		*(s + counter) = *(s + length - 1 - counter);
-		*(s + length - 1 - counter) = tmp;
-		counter++;
-	}
-
+    int len = _strlen(s);
+    char temp;
+    int i;
+    for(i =0; i< len/2; i++)
+    {
+        temp = s[i];
+        s[i] = s[len-1-i];
+        s[len-1-i] = temp;
+    }
+    
 }
 
